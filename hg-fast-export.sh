@@ -140,8 +140,8 @@ for head in `git branch | sed 's#^..##'` ; do
 done > "$GIT_DIR/$PFX-$SFX_HEADS"
 
 # create mapping file from hg revision to git revision
-sed 's/^://g' .git/hg2git-mapping | awk '{print ":"$2" "$1}' | sort | sed 's/[0-9]* //g' > .git/mappingsTemp
-sort .git/hg2git-marks | sed 's/^:[0-9]* //g' > .git/marksTemp
+sed 's/^://g' .git/hg2git-mapping | awk '{print $2" "$1}' | sort -n | sed 's/[0-9]* /:/g' > .git/mappingsTemp
+sed 's/^://g' .git/hg2git-marks | sort -n | sed 's/^[0-9]* //g' > .git/marksTemp
 paste -d ' ' .git/mappingsTemp .git/marksTemp > $GIT_DIR/$PFX-revisions
 rm  .git/mappingsTemp .git/marksTemp
 
